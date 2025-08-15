@@ -8,11 +8,12 @@ export default function AdminAddListening() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await API.post(`/tests/${testId}/listening`, { htmlContext, inputs: [] });
+      await API.post(`/tests/${testId}/listening`, { testId, htmlContext, inputs: [] });
       alert("Listening section added!");
       setHtmlContext(""); setTestId("");
     } catch (err) {
       alert("Error adding listening section");
+      console.log(err);
     }
   };
 
