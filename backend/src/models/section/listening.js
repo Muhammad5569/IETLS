@@ -12,8 +12,8 @@ const listeningSchema = mongoose.Schema({
     },
     inputs:[
         {
-            id:{ type: String, required: true},
-            type:{type: String, enum:['text', 'chechbox', 'radio'], required: true},
+            id:{ type: String},
+            type:{type: String, enum:['text', 'chechbox', 'radio'], },
             correctAnswer:{type:mongoose.Schema.Types.Mixed},
             label:{type: String}
         }   

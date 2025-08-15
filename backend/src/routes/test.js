@@ -1,5 +1,6 @@
 const express = require('express');
 const Test = require('../models/testModel');
+const Listening = require('../models/section/listening');
 const router = new express.Router();
 
 router.post('/tests', async (req, res) => {
@@ -98,6 +99,7 @@ router.post('/tests/:testId/listening',  async (req, res) => {
       listening
     })
   } catch (error) {
+    console.log(error, 'Error adding listening section')
     res.status(400).json({ message: error.message })
   }
 })
