@@ -1,18 +1,15 @@
-const ListeningAttempt = require("../../models/ListeningAttempt");
-const Listening = require("../../models/Listening");
+const ListeningAttempt = require("../../models/attempt/listening");
+const Listening = require("../../models/section/listening");
 
-// ✅ Create Attempt
 exports.createListeningAttempt = async (req, res) => {
   try {
     const { testId, listeningId, answers } = req.body;
 
-    // fetch listening section to check answers
     const listening = await Listening.findById(listeningId);
     if (!listening) {
       return res.status(404).json({ message: "Listening section not found" });
     }
 
-    // evaluate score
     let score = 0;
     const evaluatedAnswers = answers.map((ans) => {
       const input = listening.inputs.find((i) => i.id === ans.inputId);
@@ -24,7 +21,7 @@ exports.createListeningAttempt = async (req, res) => {
     const attempt = new ListeningAttempt({
       testId,
       listeningId,
-      userId: req.user?._id || null, // optional, if user system exists
+      userId: req.user?._id || null,
       answers: evaluatedAnswers,
       score,
     });
@@ -36,7 +33,6 @@ exports.createListeningAttempt = async (req, res) => {
   }
 };
 
-// ✅ Get one attempt
 exports.getListeningAttempt = async (req, res) => {
   try {
     const attempt = await ListeningAttempt.findById(req.params.id)
@@ -49,7 +45,7 @@ exports.getListeningAttempt = async (req, res) => {
   }
 };
 
-// ✅ Get all attempts for a test or user
+
 exports.getAllListeningAttempts = async (req, res) => {
   try {
     const filter = {};
@@ -65,7 +61,6 @@ exports.getAllListeningAttempts = async (req, res) => {
   }
 };
 
-// ✅ Update attempt (rare, but possible)
 exports.updateListeningAttempt = async (req, res) => {
   try {
     const attempt = await ListeningAttempt.findByIdAndUpdate(
@@ -80,7 +75,6 @@ exports.updateListeningAttempt = async (req, res) => {
   }
 };
 
-// ✅ Delete attempt
 exports.deleteListeningAttempt = async (req, res) => {
   try {
     const attempt = await ListeningAttempt.findByIdAndDelete(req.params.id);
